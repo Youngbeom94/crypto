@@ -1,3 +1,4 @@
+#broken
 # c = (km mod qx) + qy
 # m = ki c mod q
 from crypto.utilities import random_integer, modular_inverse
@@ -22,17 +23,23 @@ def generate_secret_key(k_size=K_SIZE, q_size=Q_SIZE):
         except ValueError:
             continue
         else:
+            if k > q:
+                k, q = q, k
             break
     return k, ki, q
     
 def encrypt(m, key, x_size=X_SIZE):
+    if m == 0:
+        raise ValueError("Insecure m == 0")
     x = random_integer(x_size)
     y = random_integer(x_size)
+    r = random_integer(x_size * 2)
     k, ki, q = key
     while True:
         try:
-            k_r = modular_inverse(ki, q * random_integer(32))            
+            k_r = modular_inverse(ki, q * r)            
         except ValueError:
+            r += 1
             continue
         else:
             c = ((k_r * m) % (q * x)) + (q * y)
@@ -42,7 +49,7 @@ def encrypt(m, key, x_size=X_SIZE):
 def decrypt(c, key, depth=1):
     k, ki, q = key
     return (c * pow(ki, depth, q)) % q
-    
+                
 def unit_test():
     from unittesting import test_symmetric_encrypt_decrypt
     test_symmetric_encrypt_decrypt("obviouslhe", generate_secret_key, encrypt, decrypt, iterations=10000)
