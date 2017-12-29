@@ -29,7 +29,14 @@ def encrypt(m, key, x_size=X_SIZE):
     x = random_integer(x_size)
     y = random_integer(x_size)
     k, ki, q = key
-    c = ((k * m) % (q * x)) + (q * y)
+    while True:
+        try:
+            k_r = modular_inverse(ki, q * random_integer(32))            
+        except ValueError:
+            continue
+        else:
+            c = ((k_r * m) % (q * x)) + (q * y)
+            break
     return c
     
 def decrypt(c, key, depth=1):
