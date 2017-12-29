@@ -397,10 +397,10 @@ def big_prime(size_in_bytes):
             return candidate
             
 def serialize_int(number):
-    return str(number)
-
+    return integer_to_bytes(number, int((log(number) + 1) / 8))
+    
 def deserialize_int(serialized_int):
-    return int(serialized_int)            
+    return bytes_to_integer(serialized_int)       
  
 def is_prime(n, _mrpt_num_trials=10): # from https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python
     assert n >= 2

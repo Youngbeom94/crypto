@@ -653,3 +653,75 @@ row number = value % g
  ^     
  
      
+     
+     
+     
+     
+     
+     
+     
+     
+# x modulo (1/q)
+
+
+Symmetric Encryption
+    - ciphers/psuedorandom permutations
+    - modes of operation
+        - authenticated encryption
+        - nonce misuse resistance
+Hashing
+MACs
+Random Number Generation
+
+Key Agreement
+    - DH
+Key Encapsulation
+    - Using RSA to send a key rather then a message
+Public Key Encryption
+    - RSA
+Digital signatures    
+    - related: commitments + proofs of knowledge
+    - hash based signatures
+    
+Password hashing
+
+Proof of work
+
+Protocols
+    - data at rest
+        - full disk encryption
+        - password storage
+    - data in transit
+        - connection oriented - TLS
+        - message oriented - PGP
+        
+
+Obfuscation
+
+Secure Multiparty Computation
+
+Garbled Circuits
+
+Homomorphic Encryption/Verifiable Computation
+
+Private Information Retrieval
+
+Fuzzy Extractors
+       
+Cryptographic Accumulators       
+
+Secure Logging
+
+
+     
+     
+     
+g^-x is the modular multiplicative inverse of g^x
+g^-x * g^x = g^(x - x) = g^0 = 1
+(pow(g, p - 1 - x, p) * pow(g, x, p)) % p == 1
+
+     
+     
+draw the sigma(choice) symbol 
+
+     

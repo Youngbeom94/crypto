@@ -19,6 +19,7 @@ def generate_parameter_sizes(security_level=SECURITY_LEVEL, padding=PADDING):
     
 Q_SIZE, INVERSE_SIZE, SHIFT, K_SIZE, A_SHIFT, S_SIZE, E_SHIFT, MASK = generate_parameter_sizes(SECURITY_LEVEL, PADDING)
 Q = 2 ** (Q_SIZE * 8)
+print Q_SIZE, INVERSE_SIZE, A_SHIFT, E_SHIFT
 
 def generate_private_key(inverse_size=INVERSE_SIZE, k_size=K_SIZE, q=Q, shift=SHIFT):
     """ usage: generate_private_key(inverse_size=INVERSE_SIZE, q_size=Q_SIZE) => private_key

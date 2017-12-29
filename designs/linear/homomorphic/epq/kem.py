@@ -2,6 +2,9 @@
 from crypto.utilities import random_integer
 import trapdoor
 
+__all__ = ["generate_parameter_sizes", "generate_keypair", "encapsulate_key", "recover_key"]
+
+generate_parameter_sizes = trapdoor.generate_parameter_sizes
 generate_keypair = trapdoor.generate_keypair
 
 def encapsulate_key(public_key, s_size=trapdoor.S_SIZE, e_shift=trapdoor.E_SHIFT, q=trapdoor.Q, mask=trapdoor.MASK):
