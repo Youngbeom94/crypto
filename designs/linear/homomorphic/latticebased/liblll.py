@@ -323,3 +323,14 @@ def islll(n, lc=Fraction(3, 4)):
             return False
     return True
 
+def transpose(matrix): # added by ella
+    new_matrix = [[] for count in range(len(matrix))]
+    for row_number in range(len(matrix[0])):
+        for row in reversed(matrix):
+            new_matrix[row_number].append(row[row_number])
+        
+        #for row_number, element in enumerate(row):        
+        #    new_matrix[row_number].append(element)
+    return new_matrix
+
+lll = lll_reduction

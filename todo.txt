@@ -513,79 +513,7 @@ Given a One-Way Function:
 
 
 
-
-
-
-
-
-
-# things to write about:
-#   - the best order of operations for a permutation
-#   - how to select constants
-
-The design of psuedorandom permutation generally consists of a subset of the following steps:
-    - inclusion of round constants into the state
-    - application of an operation designed to spread changes through the state
-    - application of an operation designed to add non-linearity and make the algebraic relationships of the bits in the state complex and unworkable
-    
-This work outlines the strategies of each of these steps, which allows us to conclude an optimal order for the application of the steps.
-
-Round Constants
--------
-Goal of operation:
-    produce asymmetry in the state
-        - symmetry can be very noticeable with bit-sliced designs if you don't apply the constants
-        - causes different parts of the state to have different terms in them
-    
-The Source and Application of Constant Values  
------  
-When examining the actual implementation of the psuedorandom permutation, it becomes easy to see that round constants can occupy extra space
-    - extra space also implies more MOV operations
-        - lots of MOV operations into SIMD registers can eat into CPU budget quickly and reduce the effectiveness of parallelism
-
-There are two perspectives in regard to resource usage: very small, and very big
-
-For a prp with a small state, it is ideal to use the round counter as the source of the constants.
-    - The information is readily available, most likely already in a register
-    - Guaranteed to be unique each round
-    - No extra code or resources to implement the evolution of the constants
-    - 0 degrees of freedom in selecting constants 
-        -> proves that they are not a backdoor
-        
-While that may seem ideal, a small state is more suitable to hardware then a general purpose CPU.
-A general purpose CPU needs to utilize SIMD operations to achieve maximum throughput
-    
-For a prp with large state, i.e. one that uses SIMD operations, using the round counter is not so appealing
-    - The round counter is a single word, not an SSE register
-    - SIMD operations quickly lose their efficiency when MOVing data frequently to/from SIMD registers
-        - need to minimize the number of MOVs to obtain maximum efficiency
-    -> The round constants should be intialized into one SIMD register, and updated in place
-        - operations like XOR and ADD require 2 operands
-            - have to MOV the other operand into an SIMD register before using, which is slow
-    -> solution: initialize SIMD register to 1, 2, 4, 8 and use shift left 1 to evolve constants
-        - limited by word size and number of rounds
-
-        
-The "Diffusion Layer"
-------
-Assuming that the diffusion layer is linear, which is often times but not always the case (i.e. ARX ciphers), then the goal of this layer is to spread the terms of each expression evenly across all of the other expressions. This causes the number of terms in each expression to increase. The faster this rate of increase, the fewer applications/rounds will be required to achieve complete diffusion. 
-
-The design of diffusion layers has been extensively studied elsewhere and will not be further detailed in this work.
-
-The "Non-Linear Layer"
-------
-Equations of degree 1 are easily solved, regardless of how many terms are involved. The goal of the non-linear layer is to increase the degree of terms and produce expressions that are maximally complex and unworkable. 
-
-The design of non-linear functions has been extensively studied elsewhere and will not be further discussed in this work.
-
-
-The Order of Operations
------------
-This works argues that the ideal order of operations is as follows:
-    - add/update round constant
-    - linear diffusion layer
-    - non-linear layer
-    
+   
     
     
     
@@ -724,4 +652,15 @@ g^-x * g^x = g^(x - x) = g^0 = 1
      
 draw the sigma(choice) symbol 
 
+     
+     
+inverse(x, p * q) == inverse(x, p) + (p * r) == inverse(x, q) + (q * r)
+  - factoring? AGCD?
+inverse(x, p * q) mod q == inverse(x, q)
+
+
+
+
+     
+     
      
