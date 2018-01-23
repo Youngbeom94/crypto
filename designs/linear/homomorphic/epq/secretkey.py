@@ -11,6 +11,9 @@
 #                    96    64  = 160  q = 192
 #                    128   96  = 224  q
 
+# log(s) + log(e) = log(q) + (2 * security_level)
+# `log(s) = 1280`, `log(e) = 1024`, and `log(q) = 1792`; 
+
 from crypto.utilities import random_integer, modular_inverse
 
 SECURITY_LEVEL = 32
@@ -31,7 +34,7 @@ INVERSE_SIZE, E_SIZE, S_SHIFT, S_SIZE, S_MASK, Q_SIZE = generate_parameter_sizes
 ENCRYPTION_PARAMETERS = (S_SIZE, S_SHIFT, E_SIZE)
 DECRYPTION_PARAMETERS = (S_MASK, )
 
-def generate_q(q_size=Q_SIZE):
+def generate_q(q_size=Q_SIZE): # lazy modulus generation - may need to be prime
     q_size *= 8 # to bits
     q_size += 1 # pad with 1 extra bit
     return (2 ** q_size) + 1 # + 1 required for correctness (so it's not a power of 2)       
