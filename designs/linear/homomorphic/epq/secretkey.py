@@ -1,5 +1,15 @@
-# as + e
-# s + aie            96    128      
+# as + e             
+# s + aie          64 + 32 + 32      32 + 32 + 32 + 32         q = 128
+#                  96 + 32 + 32      64 + 32 + 32 + 32         q = 160
+#                 128 + 32 + 32      96 + 32 + 32 + 32         q = 192
+#                 160 + 32 + 32     128 + 32 + 32 + 32         q = 224
+
+#64    128        q = 128, s = 32 + 32 + 32, e = 32 + 32 + 32 + 32
+#                                     q = 128, s = 64 + 32 + 32, e = 64 + 32 + 32 + 32
+#                                                  128               160
+#                    64    32  = 96   q = 160, 
+#                    96    64  = 160  q = 192
+#                    128   96  = 224  q
 
 from crypto.utilities import random_integer, modular_inverse
 
@@ -8,11 +18,11 @@ PADDING = 4
 
 def generate_parameter_sizes(security_level=SECURITY_LEVEL, padding=PADDING):
     inverse_size = security_level    
-    e_size = security_level - padding
+    e_size = (security_level * 4) - padding
     s_shift = security_level * 8
-    s_size = security_level
+    s_size = security_level * 5
     s_mask = ((2 ** (security_level * 8)) - 1)
-    q_size = security_level * 4
+    q_size = security_level * 7
     
     r_size = security_level
     return inverse_size, e_size, s_shift, s_size, s_mask, q_size
