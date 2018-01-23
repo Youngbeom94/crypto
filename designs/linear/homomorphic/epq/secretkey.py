@@ -17,13 +17,13 @@
 from crypto.utilities import random_integer, modular_inverse
 
 SECURITY_LEVEL = 32
-PADDING = 4
+PADDING = 4 
 
 def generate_parameter_sizes(security_level=SECURITY_LEVEL, padding=PADDING):
     inverse_size = security_level    
     e_size = (security_level * 4) - padding
     s_shift = security_level * 8
-    s_size = security_level * 5
+    s_size = (security_level * 5) - padding
     s_mask = ((2 ** (security_level * 8)) - 1)
     q_size = security_level * 7
     
@@ -34,12 +34,13 @@ INVERSE_SIZE, E_SIZE, S_SHIFT, S_SIZE, S_MASK, Q_SIZE = generate_parameter_sizes
 ENCRYPTION_PARAMETERS = (S_SIZE, S_SHIFT, E_SIZE)
 DECRYPTION_PARAMETERS = (S_MASK, )
 
-def generate_q(q_size=Q_SIZE): # lazy modulus generation - may need to be prime
-    q_size *= 8 # to bits
-    q_size += 1 # pad with 1 extra bit
-    return (2 ** q_size) + 1 # + 1 required for correctness (so it's not a power of 2)       
+def generate_q(q_size=Q_SIZE): # lazy modulus generation
+    q_size *= 8     
+    return (2 ** q_size) + 277 # convenient prime (thanks Mick)
 
 Q = generate_q(Q_SIZE)
+#from crypto.utilities import is_prime
+#assert is_prime(Q)
 
 def generate_secret_key(inverse_size=INVERSE_SIZE, q=Q):
     shift = inverse_size * 8
