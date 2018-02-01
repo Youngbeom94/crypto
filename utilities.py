@@ -485,3 +485,28 @@ def modular_inverse2(a, n):
     else:
         return inverse
         
+        
+_CACHE = {}
+
+def prepare_random_integers(size, quantity, _cache=_CACHE):
+    try:
+        cached_integers = _cache[size]
+    except KeyError:
+        cached_integers = _cache[size] = []        
+    cached_integers.extend(random_integer(size) for count in range(quantity))
+    
+def random_integer_fast(size, _cache=_CACHE, default_quantity=10000):
+    try:
+        entry = _cache[size]
+    except KeyError:
+        prepare_random_integers(size, default_quantity)
+        entry = _cache[size]
+        integer = entry.pop()
+    else:
+        try:
+            integer = entry.pop()
+        except IndexError:
+            prepare_random_integers(size, default_quantity)
+            integer = entry.pop()
+    return integer
+            

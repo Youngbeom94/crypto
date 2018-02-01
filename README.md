@@ -70,8 +70,8 @@ Layout
             - math
             - old
             - scratch           
-    - latex
-        - Contains "papers" I have written. Most are halfway done (if that), some are barely started, and none are published.
+    - images
+        - contains images for explaining certain techniqes/algorithms/ideas
            
 
 Most algorithms/files are simply named according to the design type in an increasing sequence, or are named according to the design type and date.

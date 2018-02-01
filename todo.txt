@@ -661,6 +661,33 @@ inverse(x, p * q) mod q == inverse(x, q)
 
 
 
-     
-     
-     
+Find a way to introduce network delay into authentication
+    - if it is not up to you to generate the proof, you cannot expedite the process
+
+setup:
+    
+example password: 10100111
+generate a random authentication token
+    - commit to token by hashing it and delivering the hash to the target server
+split the token into n shares, where n = hamming weight(password) (corresponding to the 1s in the password)
+generate k chaff/bogus shares, where k = length(password) - n (corresponding to the 0s in the password)
+securely transfer 1 share each to n + k different remote entities
+
+authentication:
+retrieve all shares from remote entities    
+recover authentication token by reconstituting shares according to password
+use hash of token to log in to the target server
+
+
+problems:
+- how to retrieve shares?
+    - can't authenticate to share servers (chicken/egg problem)
+    - solving a proof of work doesn't provide much advantage over slow hashing
+
+
+
+
+
+
+
+    

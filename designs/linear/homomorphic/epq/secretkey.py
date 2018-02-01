@@ -17,7 +17,7 @@
 from crypto.utilities import random_integer, modular_inverse
 
 SECURITY_LEVEL = 32
-PADDING = 4 
+PADDING = 4
 
 def generate_parameter_sizes(security_level=SECURITY_LEVEL, padding=PADDING):
     inverse_size = security_level    
@@ -26,7 +26,7 @@ def generate_parameter_sizes(security_level=SECURITY_LEVEL, padding=PADDING):
     s_size = (security_level * 5) - padding
     s_mask = ((2 ** (security_level * 8)) - 1)
     q_size = security_level * 7
-    
+ 
     r_size = security_level
     return inverse_size, e_size, s_shift, s_size, s_mask, q_size
 
