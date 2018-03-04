@@ -656,6 +656,7 @@ draw the sigma(choice) symbol
      
 inverse(x, p * q) == inverse(x, p) + (p * r) == inverse(x, q) + (q * r)
   - factoring? AGCD?
+  - Find x such that inverse(x, p) is short, then apply LLL to output
 inverse(x, p * q) mod q == inverse(x, q)
 
 
@@ -683,6 +684,7 @@ problems:
 - how to retrieve shares?
     - can't authenticate to share servers (chicken/egg problem)
     - solving a proof of work doesn't provide much advantage over slow hashing
+- downloading all shares doesn't prevent fast password guessing attack
 
 
 
@@ -691,3 +693,29 @@ problems:
 
 
     
+    
+In this post we will design and understand a secret key homomorphic encryption algorithm
+
+Standard disclaimer: This is not a formal research paper and should not be held to standards of rigorous unconditional correctness. 
+
+Motivation
+----
+Homomorphic encryption algorithms [unlock many capabilities](https://eprint.iacr.org/2015/1192.pdf):
+
+- They can facilitate the outsourcing of computational work without giving the entity that performs the computation the ability to learn the input/outputs that are being operated on (delegation)
+- They can be used to construct various standard tools (zero knowledge proofs, signatures, MACs and multiparty computation implementations)
+- They can be used to instantiate [public key cryptosystems](https://erose1337.github.io/2018-01-18-secret-key-based-public-key-encryption/) that are relatively simple to understand
+
+The last bullet is the one this post is concerned with; The exact goal of the alogrithm will influence certain design decisions, especially in relation to parameter sizes. We will be designing a partially homomorphic secret key cipher that is suitable for instantiating a public key cryptosystem. A partially homomorphic secret key cipher is a much lower bar to clear than a public key fully homomorphic cipher: It needs to only support a single operation, and it can keep more or less all information that is not a ciphertext a secret.
+
+To add or to multiply?
+-----
+We will be designing an algorithm that offers the ability to add ciphertexts together.     
+
+
+
+
+
+# 256 primes
+# select random subset of them
+# form product from selected subset

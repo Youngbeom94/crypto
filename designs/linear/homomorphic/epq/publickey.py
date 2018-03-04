@@ -36,6 +36,7 @@ def encrypt(m, public_key, r_size=R_SIZE, q=Q, s_mask=secretkey.S_MASK + 1):
     encryption_of_1 = public_key[-1]
     correction_factor = modular_subtraction(m, running_total, s_mask) # ensures r + r + r + ... == m # + 1 because it's a mask and not the modulus
     ciphertext += encryption_of_1 * correction_factor
+    ciphertext += random_integer(160)
     ciphertext %= q
     #running_total += correction_factor
     #running_total &= s_mask
