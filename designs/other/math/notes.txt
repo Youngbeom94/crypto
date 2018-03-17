@@ -1,0 +1,367 @@
+a = 3
+p = 17
+
+<--- s = 0 ... 5 ----> = p / a
+
+0   3   6   9   12  15    /|\
+1   4   7   10  13  16     |  e = 0 ... 2 = p % a
+2   5   8   11  14        \|/
+
+0 has twice the chance of being output as any other element
+    - reject (s = 0, e = 0)?
+        - with sizeable parameters, (s = 0, e = 0) has negligible probability of being generated
+        
+        
+        
+a = 3
+p = 17
+s_lsb = 1
+
+Each element is output twice
+
+0   3       9       15
+    4       10      16
+    5       11      
+    
+    
+    
+a = 4
+p = 17
+s_lsb = 1
+
+    4       12
+1   5       13
+2   6       14
+3    
+    
+    
+    
+    
+    
+  
+a = 3
+p = 17
+e_lsb = 1
+  
+    3   6   9   12  15
+1   4   7   10  13  16    row is repeated twice
+                          row is completely absent
+                          
+                          
+a = 4
+p = 17
+e_lsb = 1
+
+0   4   
+1   5   9   13                            
+2   6
+3   7   11  15    
+    
+    
+a = 4
+p = 19
+e_lsb = 1
+
+0   4
+1   5   9   13  17     row is repeated twice
+2
+3   7   11  15    
+
+
+a = 4
+p = 19
+e_msb = 1
+    
+0   4    
+    
+2   6   10  14  18
+3   7   11  15    
+    
+
+     
+(a+b)2-(a-b)2 = 4ab         (https://sites.google.com/site/tpiezas/005b)
+4pq = (p + q)^2 - (p - q)^2
+4N  = (p + q)^2 - (p - q)^2
+      (p + q)(p + q) - (p - q)(p - q)
+      (pp + pq + pq + qq) - (pp - pq - pq + qq)
+      (pp + pq + pq + qq) - pp + pq + pq - qq
+      pq + pq + pq + pq
+      
+      
+Squares are always congruent to 0, 1, 4, 5, 9, 16 modulo 20 (https://en.wikipedia.org/wiki/Fermat%27s_factorization_method)      
+
+Search for nx + y^2
+
+
+
+
+
+
+0   1   2
+3   4   5
+6   7   8
+9   10  11
+12  13  14
+15  16
+
+
+
+
+
+
+
+ a * s           64 32
+(p * q + r)      32 32     32
+
+
+a * s mod (p * q) + a     
+x mod (p * q) + a    
+x mod t + a      ((x / t) * a) 
+                    y * a
+                 a * s - a * y
+                 a * s - y
+                    
+                    
+                    
+                    
+                    
+                    
+ a * s       64  16
+ p * q + r   32  32  32
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ a * b
+
+a + a + a + a + a + a
+^----a, b times-----^
+
+a^-1(a + a + a + a + a + a)
+     ^----ab * a^-1------^
+1 + 1 + 1 + 1 + 1 + 1
+^------ = b---------^
+
+
+a^b
+
+a * a * a * a * a * a
+^----a, b times-----^
+
+a^-1(a * a * a * a * a * a)
+
+
+
+
+
+
+g^x = g * g * g * g * g * g * g * g * g
+g^3 = g * g * g
+
+gcd(x, 3) == 3
+
+
+
+
+
+
+
+#aa - bb
+#(a + b) * (a - b)
+#aa - ba + ba - bb
+#aa - bb == (a + b) * (a - b)
+
+#x + 1 * x - 1 == xx - 1
+#x + 2 * x - 2 == xx - 4
+#x + 3 * x - 3 == xx - 9
+#x + 4 * x - 4 == xx - 16
+#x + 5 * x - 5 == xx - 25
+#x + 6 * x - 6 == xx - 36
+#x + 7 * x - 7 == xx - 49
+
+
+1   4   9   16   25   36   49   64   81   100
+  3   5   7    9    11   13   15   17   19
+         
+        
+1    4    9    16    25    36    49    64    81    100
+   3    5    7     9    11    13    15    17    19
+     8    12    16   
+       15    21    27
+          24    32    40
+             35    45    55
+                48    60    72
+                   63    77    91
+                      80    96
+                         99
+  
+#(x + x + 1) * (x - x + 1)
+# (xx - xx + x) + (xx - xx + x) + (x - x - 1)
+# x + x - 1
+# 2x - 1
+
+#(x + y) * (x - y)
+#(x + y + 1) * (x - y + 1)
+#xx - xy + x + xy - yy + y + x - y - 1
+#xx + -1xy + x + xy + -1yy + y + x + -1y + -1
+#xx + x + -1yy + y + x + -1y + -1
+#xx + x - yy + x - 1
+#xx + 2x - yy - 1
+
+
+
+# for odd z
+# x = (z - 1) / 2
+# y = x + 1
+# yy - xx = z
+# x + y * x - y = z
+
+
+
+
+
+
+# xxxx - yyyy
+# xx + yy * xx - yy
+# xxxx + xxyy - xxyy - yyyy
+# xxxx - yyyy
+
+
+# x - y * x - y
+# xx - xy - xy - yy
+# xx - 2xy - yy
+
+
+# xx - yy * xx - yy
+# xxxx - xxyy - xxyy - yyyy
+# xxxx - 2xxyy - yyyy
+
+
+
+
+# x^2 mod n = y^2
+# nr - x^2 = y^2
+# n^2 - x^2 = y^2
+# n^2 = x^2 + y^2
+
+
+
+
+
+
+
+#aa - bb == (a + b) * (a - b)
+#ai(a + b) * (a - b)
+#1 + aib * (a - b)
+#a - b + b - aibb
+#a - aibb
+
+#aa - bb
+#ai(aa - bb)
+#a - aibb
+
+#bi(a - aibb)
+#abi - aib
+
+
+
+
+#av + bw
+#ax + by
+
+#ai(av + bw)
+#v + aibw
+#bi(v + aibw)
+#biv + aiw
+
+#av + bw
+
+# v     w
+#--- + ---
+# b     a
+
+
+#ax + by
+#xi(ax + by)
+#a + xiby
+#yi(a + xiby)
+#ayi + bxi
+
+
+
+
+
+
+0 a b
+c d e
+f g h
+
+q = 10
+
+
+0 3 6 9
+1 4 7 10
+2 5 8 11
+
+0 5 10
+3 8
+
+0
+  3 6 9
+  2 5 8
+  1 4 7
+  
+  
+  
+q = 24
+g = 5
+
+0 5 10 15 20
+1 6 11 16 21
+2 7 12 17 22
+3 8 13 18 23
+4 9 14 19   
+
+
+
+
+# e * d - 1 == (p - 1) * (q - 1)
+# e * d - 1 == p * q * x + r
+# log(r) == log(p)
+
+# e * d = p * q * x + r + 1
+
+# d = p * q * x + r + 1
+#      ----------
+#           e
+            
+            
+            
+a^2p == b^2 + c^2 where p = 4n + 1
+                            2^2n + 1
+                            
+(a^2 + b^2) * (c^2 + d^2) == e^2 + f^2                                        
+
+
+
+
+
+a^2 / 2a = a / 2 # result due to Mick
+
+
+
+
+
+
+
+
+
+
+choice(k, a, b) XOR choice(k, b, a) = a XOR b
+choice(k, a, b) AND choice(k, b, a) = a AND b
+choice(k, a, b) + choice(k, b, a) = a + b
+choice(k, k * a, k * b) + choice(k, b * k, a * k) = (a * k) + (b * k)
