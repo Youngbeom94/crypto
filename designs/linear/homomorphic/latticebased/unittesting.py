@@ -2,6 +2,9 @@ from timeit import default_timer
 
 from crypto.utilities import random_integer, size_in_bits
 
+class UnitTestFailure(BaseException): pass
+
+
 def test_for_homomorphism(ciphertext1, ciphertext2, decrypt, key, m1, m2):    
     if decrypt(ciphertext1 + ciphertext2, key) == m1 + m2:
         print("Ciphertexts support addition: D(E(m1) + E(m2)) == m1 + m2")        
@@ -59,7 +62,7 @@ def test_asymmetric_encrypt_decrypt(algorithm_name, generate_keypair, encrypt, d
         ciphertext = encrypt(message, public_key)
         plaintext = decrypt(ciphertext, private_key)
         if plaintext != message:
-            raise Warning("Unit test failed after {} successful tests".format(count))
+            raise UnitTestFailure("Unit test failed after {} successful tests".format(count))
     print("...done")
     
     test_encrypt_decrypt_time(iterations, encrypt, decrypt, public_key, private_key, plaintext_size)
@@ -130,7 +133,7 @@ def test_key_exchange(algorithm_name, generate_keypair, exchange_key, recover_ke
         assert key != 0
         _key = recover_key(ciphertext, private_key)
         if _key != key:
-            raise BaseException("Unit test failed (after {} successful exchanges)".format(count))
+            raise UnitTestFailure("Unit test failed (after {} successful exchanges)".format(count))
     print("...done")
     
     test_exchange_key_recover_key_time(iterations, exchange_key, recover_key, public_key, private_key, key_size)
@@ -171,7 +174,7 @@ def test_sign_verify(algorithm_name, generate_keypair, sign, verify,
         message = random_integer(message_size)
         signature = sign(message, private_key)
         if not verify(signature, message, public_key):        
-            raise BaseException("Unit test failed after {} successful signature verifications".format(count))
+            raise UnitTestFailure("Unit test failed after {} successful signature verifications".format(count))
     print("...done")
     
     test_sign_verify_time(iterations, sign, verify, public_key, private_key, message_size)
