@@ -1,5 +1,36 @@
+# key generation:
+#   public parameters:
+#       q = big_prime(security_level * 5 + 1)
+#   private key generation:
+#       a_i = random_integer(security_level)
+#       b_i = random_integer(security_level)
+#       d = (a_i * b_i) mod q
+#       a = modular_inverse(a_i, q)
+#       b = modular_inverse(b_i, q)
+#   public key generation:
+#       for i in 0 ... (q_size / security_level) + 1:
+#          x = random_integer(security_level * 2)
+#          y = random_integer(security_level * 2)
+#          z = m * (2 ** (security_level * 3)) + random_integer(security_level * 3)
+#          e = random_integer(security_level)
+#          public_i = ax + by + abz + e
+#   public key operation:
+#       ciphertext = 0
+#       shared secret = 0
+#       for element in public key:
+#           r = random_integer(security_level)
+#           ciphertext += element * r
+#           shared secret += r
+#       return ciphertext mod q, r mod 2 ** security_level
+#   private key operation:
+#       return ((d * ciphertext) mod q) / (2 ** (security_level * 3))
+
 #bixr + aiyr + zr       32 64 32      128 32      160         64 + 64 + 96 = 224
-#                       (224 / 32) + 1
+#                       (224 / 32) + 1                           
+
+# axr + byr + abzr + er    
+# bixr + aiyr + zr + aibier    32+32+32      96+32    32+32+32+32     32 + 32 + 96 + 32 = 192       q=128
+
 from math import log
 
 from crypto.utilities import random_integer, modular_inverse
@@ -33,7 +64,7 @@ def find_q(q_size):
 #q, offset = find_q(Q_SIZE)    
 #print offset
 #Q = q + offset
-Q = (2 ** (Q_SIZE * 8)) + 1813
+Q = (2 ** (Q_SIZE * 8)) + 445
 
 def generate_private_key(inverse_size=INVERSE_SIZE, q=Q):
     ai = random_integer(inverse_size)
@@ -54,7 +85,7 @@ def generate_public_key(private_key, x_size=X_SIZE, z_size=Z_SIZE, z_shift=Z_SHI
         x = random_integer(x_size)
         y = random_integer(x_size)
         z = payload_bits | random_integer(z_size)
-        element = ((a * x) + (b * y) + (ab * z)) % q
+        element = ((a * x) + (b * y) + (ab * z) + random_integer(SECURITY_LEVEL - 1)) % q
         public_key.append(element)
     return public_key
     
