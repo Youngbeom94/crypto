@@ -98,3 +98,11 @@ def test_encapsulate_key_recover_key():
 if __name__ == "__main__":
     test_encapsulate_key_recover_key()
     
+    
+#[1, public_key[i], 0, 0, 0, 0, 0]
+#[0,             q, 0, 0, 0, 0, 0]
+#[0,           2^λ, 1, 0, 0, 0, 0]
+#[0,           4^λ, 0, 1, 0, 0, 0]
+#[0,           8^λ, 0, 0, 1, 0, 0]
+#[0,          16^λ, 0, 0, 0, 1, 0]
+#[0,  1 << s_shift, 0, 0, 0, 0, 1]    
