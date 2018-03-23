@@ -7,7 +7,7 @@ SECURITY_LEVEL = 32
 def generate_parameter_sizes(security_level=SECURITY_LEVEL):
     from math import log
     inverse_size = security_level
-    e_size = (security_level * 3) - 1
+    e_size = (security_level * 4) - 1
     s_size = (security_level * 5) - 1
     q_size = (security_level * 7) + 4    
     
@@ -40,7 +40,7 @@ def generate_public_key(private_key, e_size=E_SIZE, s_size=S_SIZE, dimensions=DI
         e = random_integer(e_size)
         s = random_integer(s_size)
         s |= payload_section
-        element = (((a * s) + e) % q) + q
+        element = ((a * s) + e) % q
         public_key.append(element)
     return public_key
 

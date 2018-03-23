@@ -22,7 +22,7 @@ Each element is output twice
 0   3       9       15
     4       10      16
     5       11      
-    
+        
     
     
 a = 4
@@ -365,3 +365,53 @@ choice(k, a, b) XOR choice(k, b, a) = a XOR b
 choice(k, a, b) AND choice(k, b, a) = a AND b
 choice(k, a, b) + choice(k, b, a) = a + b
 choice(k, k * a, k * b) + choice(k, b * k, a * k) = (a * k) + (b * k)
+
+
+
+
+
+
+
+
+
+
+
+
+a = 3
+p = 17
+
+0   3   6   9   12  15   
+1   4   7   10  13  16   
+2   5   8   11  14       
+
+
+
+a = 4
+p = 17
+
+0   4   8   12  16
+3   7   11  15
+2   6   10  14
+1   5   9
+
+
+
+
+
+
+there are n possible permutations of sequences mod n
+
+how many are reachable by addition, multiplication, exponentiation, etc?
+
+
+
+
+(1, n), (-1, -n) are factors of n
+(p - n) * (p - 1) mod p == n
+
+(pp - p - np + n)
+p(p - n - 1) + n
+
+
+
+

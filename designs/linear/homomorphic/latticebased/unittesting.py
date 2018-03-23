@@ -77,7 +77,7 @@ def test_asymmetric_encrypt_decrypt(algorithm_name, generate_keypair, encrypt, d
             
     print("Public key size : {}".format(sum(public_sizes)))
     print("Private key size: {}".format(sum(private_sizes)))
-    print("Ciphertext size : {}".format(size_in_bits(encrypt(random_integer(32), public_key))))
+    print("Ciphertext size : {}".format(size_in_bits(encrypt(random_integer(plaintext_size), public_key))))
     print("(sizes are in bits)")
     print("{} unit test passed".format(algorithm_name))
        
