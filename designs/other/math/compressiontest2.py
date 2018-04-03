@@ -1,4 +1,4 @@
-from math import log
+from math import log, ceil
 
 from crypto.utilities import modular_inverse
  
@@ -9,7 +9,8 @@ def hamming_weight(a):
     return format(a, 'b').count('1')
     
 def hamming_distance(a, b):
-    return hamming_weight(a ^ b)
+    return int(abs(a - b))
+    #return hamming_weight(a ^ b)
     
 def lossy_compress_block(data, q=Q, ratio=RATIO, cache={}):
     try:
@@ -28,7 +29,7 @@ def lossy_compress_block(data, q=Q, ratio=RATIO, cache={}):
         if distance < min_distance:
             min_distance = distance
             best_code = short_inverse
-    cache[data] = (best_code, min_distance)
+    cache[data] = (best_code, min_distance)    
     return best_code, min_distance
     
 def decompress_block(compressed_data, q=Q, cache={}):
@@ -45,11 +46,12 @@ def compress_data(data, q=Q, ratio=RATIO):
     output = 0    
     for counter, byte in enumerate(data):
         code = lossy_compress_block(byte, q, ratio)[0]           
-        output |= (code << (counter * ratio))        
-    return output
+        output |= (code << (counter * ratio)) 
+    data_size = int(ceil(counter * (float(ratio) / 8)))
+    return output, data_size
     
 def decompress_data(compressed_data, q=Q, ratio=RATIO):
-    output = []
+    output = bytearray()
     data = compressed_data
     mask = (2 ** ratio) - 1
     while data:    
@@ -76,7 +78,7 @@ def test_lossy_compress_block():
     
 def test_compress_data_decompress_data():
     data = bytearray("I'm not really sure how to impart meaningful structure to this data")
-    compressed_data = compress_data(data)
+    compressed_data, compressed_size = compress_data(data)
     decompressed_data = decompress_data(compressed_data)
     print list(data)    
     print compressed_data

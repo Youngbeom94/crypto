@@ -415,3 +415,100 @@ p(p - n - 1) + n
 
 
 
+
+
+subset sum
+
+0   1   2   3   4   ...     n      given a set of elements
+    |       |               |
+    x       y               z      select a subset of them
+    
+    x + y + z + ...                and sum the subset
+    
+
+scaled subset sum                  
+
+0   1   2   3   4   ....    n      given a set of elements
+    |       |               |
+    x       y               z      select a subset of them
+    
+    r(x + y + z + ...)             sum the subset, then multiply times a random scalar
+
+
+subset sum -> inner product
+                         
+0   1   2   3   4   ...     n      given a set of scalars
+    |       |               |
+    a       b               c      select a subset of the scalars
+    
+    a, b, c                        use the subset as a basis vector
+    
+    x, y, z                        generate a random vector (array of scalars)
+    
+    ax + by + cz + ...             compute the inner product of the subset vector and random vector
+    
+    
+subset sum+ -> inner product            
+
+0   1   2   3   4   5   6   ...        n   given a set of scalars
+    |   |   |   |   |   |              
+    a   d   b   c   e   f              select and N subsets of the scalars
+                                       
+    a + b + c, d + e + f, ...          sum each subset
+    
+    x, y, z, ...                       generate a k-length random vector (k = length of subset)
+    
+    x(a + b + c) + y(d + e + f) + ...  compute the inner product of the random vector and subset sums
+    
+    
+    
+    
+    
+    
+    
+g^x * g^1/x = g^(x * 1/x) = g^1
+
+g^3x * g^1/x = g^(3x * 1/x) = g^3
+
+g^15 * g^1/5 = g^(15 * (1/5)) = g^3
+
+
+
+(b * c)^n = b^n * c^n
+
+(b^k * bi)^n = b^kn * bi^n = 
+
+
+
+
+
+
+
+
+
+
+
+pq = x^2 + 5y^2
+pq - 5y^2 = x^2
+(pq - 5^2)^1/2 = x
+
+pq - x^2 = 5y^2
+pq - x^2
+-------- = y^2
+    5
+    
+    
+        
+        
+        
+        
+        
+        
+        
+if p is congruent to 1 mod 4, then p = a^2 + b^2 (fermat)
+if q is congruent to 1 mod 4, then q = c^2 + d^2 (fermat)
+the product of two sums of two squares is a sum of two squares: p * q = (a^2 + b^2) * (c^2 + d^2) = e^2 + f^2 (brahmagupta-fibonnaci identity)
+there are sqrt(p) values x such that x^2 is smaller than p 
+
+(a^2 + b^2) * (c^2 + d^2) = (ac - bd)^2 + (ad + bc)^2
+                          = (ac + bd)^2 + (ad - bc)^2
