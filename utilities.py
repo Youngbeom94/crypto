@@ -307,9 +307,14 @@ def long_longs_to_bytes(*longs):
 def shuffle(data, key):
     for i in reversed(range(1, len(data))):
         # Fisher-Yates shuffle        
-        j = key[i] % i            
+        j = key[i] % i  # biased
         data[i], data[j] = data[j], data[i]           
             
+def inverse_shuffle(data, key):
+    for i in range(1, len(data)):
+        j = key[i] % i
+        data[i], data[j] = data[j], data[i]
+        
 def choice(a, b, c):
     return c ^ (a & (b ^ c))
     
@@ -509,4 +514,13 @@ def random_integer_fast(size, _cache=_CACHE, default_quantity=10000):
             prepare_random_integers(size, default_quantity)
             integer = entry.pop()
     return integer
+            
+def secret_split(m, size, count, modulus):    
+    splits = [random_integer(size) for counter in range(count - 1)]
+    splits.append((m - sum(splits)) % modulus)    
+    return splits
+     
+def dot_product(e, m):
+    return sum((e[i] * m[i] for i in range(len(e))))            
+            
             
