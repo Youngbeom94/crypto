@@ -569,3 +569,127 @@ aa - ab + ab - bb == aa - bb
 
 (n / 2) + 1 - (n / 2)
 ((n / 2) + 1 + (n / 2)) * ((n / 2) + 1 - (n / 2))
+
+
+
+
+
+
+
+k(x + y + z) mod q       x + y + z mod 2^k == m
+
+
+x + y + z mod 2^k = m
+-   -   -
+a   b   c
+
+
+bcx + acy + abz = x + y + z 
+---------------   -   -   -
+    abc           a   b   c
+                        
+       
+
+k(x + y + z) mod q2^n
+
+
+
+
+(a2^n) + 1  (b2^n**2) + 1    (c2^n**3) + 1
+
+
+
+
+x + y + z  = m
+
+
+ x    y    z
+| |  | |  | |
+ c    f    i
+ +    +    +
+ b    e    h
+ +    +    +
+ a    d    g
+ 
+ 
+ 
+ 
+ 
+ c    f    i         
+ +    +    +        
+ b    e    h
+ +    +    +  --->  shuffle
+ a    d    g
+ +    +    +
+ r0   r1   r2
+ 
+ 
+ 
+ 
+ 
+ 
+x + y = m mod q
+
+k1x, k2y 
+
+
+k1 * k2 = d mod q
+x + y = m mod q
+
+k1^-1x + k2^-1y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+imaginary units in modular arithmetic
+-----
+
+The imaginary unit is the square root of -1
+[The imaginary unit or unit imaginary number (i) is a solution to the quadratic equation x2 + 1 = 0](https://en.wikipedia.org/wiki/Imaginary_unit)
+i^n = i^(n mod 4)
+So there are two square roots of -1: i and -i
+the defining equation x^2 = −1 has two distinct solutions, which are equally valid and which happen to be additive and multiplicative inverses of each other
+
+Select some modulus n
+-1 == nx - 1
+sqrt(nx - 1) = i
+
+
+pick some imaginary unit k
+generate n: n = k^2 + 1
+
+
+
+(a^2 + b^2) = (a + bi) * (a - bi)
+(a^2 - b^2) = (a - bi) * (a - biii)  
+               aa - abiii - abi - bb
+               aa - (ab-i) - abi - bb
+               aa + abi - abi - bb
+               aa - bb
+               
+i^2 is a square root of 1
+    - is a trivial square root of 1 (= -1)
+
+
+
+
+
+can distribution of exponents be used to speed up any calculations
+    - freshmans dream identity
+    
+
+a^2 + bi^2 = c^2
+5^2 + 3i^3 = 4^2
+25 - 9 = 16

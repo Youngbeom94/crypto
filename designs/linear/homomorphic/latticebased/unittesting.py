@@ -6,20 +6,32 @@ class UnitTestFailure(BaseException): pass
 
 
 def test_for_homomorphism(ciphertext1, ciphertext2, decrypt, key, m1, m2):    
-    if decrypt(ciphertext1 + ciphertext2, key) == m1 + m2:
-        print("Ciphertexts support addition: D(E(m1) + E(m2)) == m1 + m2")        
+    try:
+        if decrypt(ciphertext1 + ciphertext2, key) == m1 + m2:
+            print("Ciphertexts support addition: D(E(m1) + E(m2)) == m1 + m2")        
+    except (TypeError, ValueError):
+        pass
         
     try:
         if decrypt(ciphertext1 * ciphertext2, key, depth=2) == m1 * m2:
             print("Ciphertexts support multiplication: D(E(m1) * E(m2)) == m1 * m2")
     except TypeError:
-        if decrypt(ciphertext1 * ciphertext2, key) == m1 * m2:
-            print("Ciphertexts support multiplication: D(E(m1) * E(m2)) == m1 * m2") 
-            
-    if decrypt(ciphertext1 ^ ciphertext2, key) == m1 ^ m2:
-        print("Ciphertexts support XOR: D(E(m1) ^ E(m2)) == m1 ^ m2")
-    if decrypt(ciphertext1 & ciphertext2, key) == m1 & m2:
-        print("Ciphertexts support AND: D(E(m1) & E(m2)) == m1 & m2")
+        try:
+            if decrypt(ciphertext1 * ciphertext2, key) == m1 * m2:
+                print("Ciphertexts support multiplication: D(E(m1) * E(m2)) == m1 * m2") 
+        except TypeError:
+            pass
+    try:
+        if decrypt(ciphertext1 ^ ciphertext2, key) == m1 ^ m2:
+            print("Ciphertexts support XOR: D(E(m1) ^ E(m2)) == m1 ^ m2")
+    except TypeError:
+        pass
+    
+    try:
+        if decrypt(ciphertext1 & ciphertext2, key) == m1 & m2:
+            print("Ciphertexts support AND: D(E(m1) & E(m2)) == m1 & m2")
+    except TypeError:
+        pass
         
 def determine_key_size(key):    
     sizes = []
@@ -28,10 +40,15 @@ def determine_key_size(key):
     except TypeError:        
         for item in key:
             try:
-                for _item in item:
+                for _item in item:                    
                     sizes.append(size_in_bits(_item))
-            except TypeError:
-                sizes.append(size_in_bits(item))    
+            except TypeError:                    
+                try:
+                    sizes.append(size_in_bits(item))    
+                except TypeError:
+                    for _item in item:
+                        for __item in _item:
+                            sizes.append(size_in_bits(__item))
     return sizes
     
 def test_encrypt_decrypt_time(iterations, encrypt, decrypt, public_key, private_key, plaintext_size):  
@@ -74,20 +91,27 @@ def test_asymmetric_encrypt_decrypt(algorithm_name, generate_keypair, encrypt, d
         
     public_sizes = determine_key_size(public_key)
     private_sizes = determine_key_size(private_key)
-            
+    ciphertext_size = determine_key_size(ciphertext)
+    
     print("Public key size : {}".format(sum(public_sizes)))
     print("Private key size: {}".format(sum(private_sizes)))
-    print("Ciphertext size : {}".format(size_in_bits(encrypt(random_integer(plaintext_size), public_key))))
+    print("Ciphertext size : {}".format(sum(ciphertext_size)))
     print("(sizes are in bits)")
     print("{} unit test passed".format(algorithm_name))
        
 def test_symmetric_encrypt_decrypt(algorithm_name, generate_key, encrypt, decrypt,
                                    iterations=1024, plaintext_size=32):
     print("Beginning {} unit test...".format(algorithm_name))
-    print("Generating key...")
-    key = generate_key()
+    print("Validating correctness...")
+    for count in range(iterations):
+        key = generate_key()
+        message = random_integer(plaintext_size)
+        ciphertext = encrypt(message, key)
+        plaintext = decrypt(ciphertext, key)
+        if plaintext != message:
+            raise UnitTestFailure("Unit test failed after {} successful tests".format(count))
     print("...done")
-    
+        
     test_encrypt_decrypt_time(iterations, encrypt, decrypt, key, key, plaintext_size)
         
     m1 = 10
@@ -96,9 +120,10 @@ def test_symmetric_encrypt_decrypt(algorithm_name, generate_key, encrypt, decryp
     c2 = encrypt(m2, key)
     test_for_homomorphism(c1, c2, decrypt, key, m1, m2)
       
-    key_size = determine_key_size(key)          
+    key_size = determine_key_size(key) 
+    ciphertext_size = determine_key_size(c1)
     print("Key size: {}".format(sum(key_size)))
-    print("Ciphertext size: {}".format(size_in_bits(encrypt(random_integer(plaintext_size), key))))
+    print("Ciphertext size: {}".format(sum(ciphertext_size)))
     print("{} unit test passed".format(algorithm_name))
 
 def test_exchange_key_recover_key_time(iterations, exchange_key, recover_key, public_key, private_key, key_size=32):        
@@ -140,9 +165,10 @@ def test_key_exchange(algorithm_name, generate_keypair, exchange_key, recover_ke
     
     public_sizes = determine_key_size(public_key)
     private_sizes = determine_key_size(private_key)
+    ciphertext_size = determine_key_size(ciphertext)
     print("Public key size : {}".format(sum(public_sizes)))
     print("Private key size: {}".format(sum(private_sizes)))
-    print("Ciphertext size : {}".format(size_in_bits(exchange_key(public_key)[0])))
+    print("Ciphertext size : {}".format(sum(ciphertext_size)))
     print("(sizes are in bits)")
     print("{} unit test passed".format(algorithm_name))
     

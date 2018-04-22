@@ -102,12 +102,13 @@ _type_resolver = {"bytes" : byte_form, "binary" : binary_form, "integer" : lambd
 def cast(input_data, _type):
     return _type_resolver[_type](input_data)
     
-def hamming_weight(word32):
+def hamming_weight(word):
+    return format(word, 'b').count('1')
     # from http://stackoverflow.com/a/109025/3103584
     # "you are not meant to understand or maintain this code, just worship the gods that revealed it to mankind. I am not one of them, just a prophet"
-    word32 = word32 - ((word32 >> 1) & 0x55555555)
-    word32 = (word32 & 0x33333333) + ((word32 >> 2) & 0x33333333)
-    return (((word32 + (word32 >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24    
+    #word32 = word32 - ((word32 >> 1) & 0x55555555)
+    #word32 = (word32 & 0x33333333) + ((word32 >> 2) & 0x33333333)
+    #return (((word32 + (word32 >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24    
     
 def generate_s_box(function):
     S_BOX = bytearray(256)
