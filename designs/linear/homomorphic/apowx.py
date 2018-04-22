@@ -56,6 +56,9 @@ def exponentiate(c1, c2, p=P):
     # a^(c^x) * a^(d^y) * b^(c^x) * b^(d^y)
     # ab^(c^x) * ab(d^y)
     # ab^(c^x + d^y)    
+    
+    #a^cd * b^cd
+    #ab^cd
     output = []
     for item in c1:
         for item2 in c2:

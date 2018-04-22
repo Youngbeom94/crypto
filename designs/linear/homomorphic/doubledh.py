@@ -5,27 +5,13 @@ from crypto.utilities import random_integer, modular_inverse, big_prime
 SECURITY_LEVEL = 32
 
 def generate_parameters(security_level=SECURITY_LEVEL):
-    k_size = security_level
-    
-    # best quantum attack against knapsacks is slightly less then O(.25N)
-    # where N = number of elements summed together 
-    # N should be half of the entire set    
-    knapsack_multiplier = 4                                          
-    knapsack_size = 8 * security_level * 4 * 2                   
-    assert knapsack_size == 2048, knapsack_size
-    subset_count = knapsack_size / 2
-    assert subset_count == 1024, subset_count
-    knapsack_element_size = knapsack_size / 8  # (knapsack_element_size in bytes)
-    assert knapsack_element_size == 256, knapsack_element_size
-    
-    share_size = security_level    
-    p_size = knapsack_element_size
+    k_size = security_level       
+    r_size = s_size = security_level
+    p_size = security_level
     generator = 3
-    
-    parameters = {"k_size" : k_size,
-                  "knapsack_size" : knapsack_size, "knapsack_element_size" : knapsack_element_size,
-                  "subset_count" : subset_count, "share_size" : share_size,
-                  "p_size" : p_size, "generator" : generator}
+    share_size = security_level
+    parameters = {"k_size" : k_size, "r_size" : r_size, "s_size" : s_size,                  
+                  "p_size" : p_size, "generator" : generator, "share_size" : share_size}
     return parameters
     
 def find_p(parameters):
@@ -41,7 +27,7 @@ PARAMETERS = generate_parameters(SECURITY_LEVEL)
 #P_BASE, OFFSET = find_p(PARAMETERS)
 #print OFFSET
 #P = P_BASE + OFFSET    
-P = (2 ** ((PARAMETERS["p_size"] * 8) + 1)) + 227
+P = (2 ** ((PARAMETERS["p_size"] * 8) + 1)) + 155
 PARAMETERS["p"] = P
 
 def secret_split(m, security_level, shares, modulus):
@@ -88,11 +74,8 @@ def generate_private_key(parameters=PARAMETERS):
     return generate_key(parameters)
     
 def generate_public_key(private_key, parameters=PARAMETERS):
-    generator_ciphertext = private_key_encrypt(parameters["generator"], private_key, parameters)
-    public_key = generator_ciphertext, []
-    for element_number in range(parameters["knapsack_size"]):
-        ciphertext = private_key_encrypt(1, private_key, parameters)
-        public_key[1].append(ciphertext)
+    public_key = [private_key_encrypt(parameters["generator"], private_key, parameters),
+                  private_key_encrypt(1, private_key, parameters)]    
     return public_key
     
 def generate_keypair(parameters=PARAMETERS):    
@@ -100,21 +83,16 @@ def generate_keypair(parameters=PARAMETERS):
     public_key = generate_public_key(private_key, parameters)
     return public_key, private_key
     
-def random_element(set_size):       
-    set_size_bits = int(log(set_size, 2))
-    integer_size_bytes = int((set_size_bits / 8) + 1)
-    return random_integer(integer_size_bytes) % (2 ** set_size_bits)
-    
 def encapsulate_key(public_key, parameters=PARAMETERS):
-    x = random_integer(parameters["k_size"])
+    s_size = parameters["s_size"]
+    r_size = parameters["r_size"]
     p = parameters["p"]
-    shared_secret = pow(parameters["generator"], x, p)
-    ciphertext = scalar_exponentiation(public_key[0], x, p)
-    
-    knapsack_size = parameters["knapsack_size"]
-    for count in range(parameters["subset_count"]):
-        encryption_of_1 = public_key[1][random_element(knapsack_size)]
-        ciphertext = multiply(ciphertext, encryption_of_1, p)
+    s = random_integer(s_size)
+    r = random_integer(r_size)
+    shared_secret = pow(parameters["generator"], s, p)
+    encrypted_secret = scalar_exponentiation(public_key[0], s, p)
+    randomizer = scalar_exponentiation(public_key[1], r, p)
+    ciphertext = multiply(encrypted_secret, randomizer, p)
     return ciphertext, shared_secret
     
 def recover_key(ciphertext, private_key, parameters=PARAMETERS):
@@ -122,7 +100,7 @@ def recover_key(ciphertext, private_key, parameters=PARAMETERS):
         
 def test_encapsulate_key():
     from crypto.designs.linear.homomorphic.latticebased.unittesting import test_key_exchange
-    test_key_exchange("encrypted DH", generate_keypair, encapsulate_key, recover_key, iterations=10)       
+    test_key_exchange("double DH", generate_keypair, encapsulate_key, recover_key, iterations=10000)       
     
 if __name__ == "__main__":
     test_encapsulate_key()
