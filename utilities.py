@@ -524,4 +524,32 @@ def secret_split(m, size, count, modulus):
 def dot_product(e, m):
     return sum((e[i] * m[i] for i in range(len(e))))            
             
-            
+def next_bit_permutation(v, mask):
+    t = (v | (v - 1)) + 1
+    return (t | ((((t & -t) / (v & -v)) >> 1) - 1)) & mask
+    
+def bit_generator(seed_weight, mask):    
+    _seed_weight = seed_weight    
+    while True:                
+        yield seed_weight    
+        if not seed_weight:            
+            break        
+        seed_weight = next_bit_permutation(seed_weight, mask) 
+        
+def find_low_weight_prime(size):
+    mask = int('1' * size * 8, 2)   
+    base = 2 ** (size * 8)
+    for seed_weight in range(size * 8):
+        for offset in bit_generator(seed_weight, mask):
+            if is_prime(base + offset):
+                return base, offset
+                
+def find_low_weight_safe_prime(size):
+    mask = int('1' * size * 8, 2)   
+    base = 2 ** (size * 8)
+    for seed_weight in range(size * 8):
+        for offset in bit_generator(seed_weight, mask):
+            if is_prime(base + offset):
+                if is_prime(((base + offset) - 1) / 2):
+                    return base, offset
+                

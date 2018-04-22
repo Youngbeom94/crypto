@@ -1,5 +1,4 @@
-from math import log
-
+# g^s * h^r
 from crypto.utilities import random_integer, modular_inverse, big_prime
 
 SECURITY_LEVEL = 32
@@ -27,7 +26,8 @@ PARAMETERS = generate_parameters(SECURITY_LEVEL)
 #P_BASE, OFFSET = find_p(PARAMETERS)
 #print OFFSET
 #P = P_BASE + OFFSET    
-P = (2 ** ((PARAMETERS["p_size"] * 8) + 1)) + 155
+#P = (2 ** ((PARAMETERS["p_size"] * 8) + 1)) + 155
+P = (2 ** 256) + 230191
 PARAMETERS["p"] = P
 
 def secret_split(m, security_level, shares, modulus):
@@ -50,18 +50,18 @@ def generate_key(parameters=PARAMETERS):
             continue
         else:
             break
-    return (k1, k2), (k1i, k2i)
+    return (k1, k2)
     
 def private_key_encrypt(m, key, parameters=PARAMETERS):
     p = parameters['p']
     x, y = secret_split(m, parameters["share_size"], 2, p)
-    k1, k2 = key[0]
+    k1, k2 = [modular_inverse(k, p - 1) for k in key]
     return pow(x, k1, p), pow(y, k2, p)
     
 def private_key_decrypt(ciphertext, key, parameters=PARAMETERS):    
     p = parameters['p']
     c1, c2 = ciphertext
-    k1i, k2i = key[1]    
+    k1i, k2i = key 
     return (pow(c1, k1i, p) * pow(c2, k2i, p)) % p
     
 def multiply(c1, c2, p=P):
@@ -83,12 +83,12 @@ def generate_keypair(parameters=PARAMETERS):
     public_key = generate_public_key(private_key, parameters)
     return public_key, private_key
     
-def encapsulate_key(public_key, parameters=PARAMETERS):
-    s_size = parameters["s_size"]
-    r_size = parameters["r_size"]
+def encapsulate_key(public_key, parameters=PARAMETERS):        
     p = parameters["p"]
-    s = random_integer(s_size)
-    r = random_integer(r_size)
+    s = random_integer(parameters["s_size"])
+    r = random_integer(parameters["r_size"])
+    assert s < p
+    assert r < p
     shared_secret = pow(parameters["generator"], s, p)
     encrypted_secret = scalar_exponentiation(public_key[0], s, p)
     randomizer = scalar_exponentiation(public_key[1], r, p)
