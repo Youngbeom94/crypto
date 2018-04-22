@@ -12,8 +12,11 @@ def generate_parameters(security_level=SECURITY_LEVEL):
     # N should be half of the entire set    
     knapsack_multiplier = 4                                          
     knapsack_size = 8 * security_level * 4 * 2                   
+    assert knapsack_size == 2048, knapsack_size
     subset_count = knapsack_size / 2
+    assert subset_count == 1024, subset_count
     knapsack_element_size = knapsack_size / 8  # (knapsack_element_size in bytes)
+    assert knapsack_element_size == 256, knapsack_element_size
     
     share_size = security_level    
     p_size = knapsack_element_size
@@ -28,17 +31,17 @@ def generate_parameters(security_level=SECURITY_LEVEL):
 def find_p(parameters):
     from crypto.utilities import is_prime
     p_size = parameters["p_size"]
-    p = 2 ** ((p_size * 8) + 1)
+    p = 2 ** ((p_size * 8) + 1)    
     offset = 1
     while not is_prime(p + offset):
         offset += 2
     return p, offset
     
 PARAMETERS = generate_parameters(SECURITY_LEVEL)      
-#P_BASE, OFFSET = find_p(SECURITY_LEVEL)
+#P_BASE, OFFSET = find_p(PARAMETERS)
 #print OFFSET
 #P = P_BASE + OFFSET    
-P = (2 ** (SECURITY_LEVEL * 8)) + 297
+P = (2 ** ((PARAMETERS["p_size"] * 8) + 1)) + 227
 PARAMETERS["p"] = P
 
 def secret_split(m, security_level, shares, modulus):
