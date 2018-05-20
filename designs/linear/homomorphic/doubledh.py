@@ -87,8 +87,6 @@ def encapsulate_key(public_key, parameters=PARAMETERS):
     p = parameters["p"]
     s = random_integer(parameters["s_size"])
     r = random_integer(parameters["r_size"])
-    assert s < p
-    assert r < p
     shared_secret = pow(parameters["generator"], s, p)
     encrypted_secret = scalar_exponentiation(public_key[0], s, p)
     randomizer = scalar_exponentiation(public_key[1], r, p)
@@ -97,10 +95,26 @@ def encapsulate_key(public_key, parameters=PARAMETERS):
     
 def recover_key(ciphertext, private_key, parameters=PARAMETERS):
     return private_key_decrypt(ciphertext, private_key, parameters)    
-        
+
+def encrypt_public_key(public_key, parameters=PARAMETERS):
+    p = parameters["p"]
+    r = random_integer(parameters["r_size"])
+    randomized_1 = scalar_exponentiation(public_key[1], r, p)
+    randomized_g = multiply(public_key[0], randomized_1, p)
+    return (randomized_g, randomized_1)
+    
 def test_encapsulate_key():
     from crypto.designs.linear.homomorphic.latticebased.unittesting import test_key_exchange
     test_key_exchange("double DH", generate_keypair, encapsulate_key, recover_key, iterations=10000)       
+
+    print("Beginning encrypted public key unit test...")
+    public_key, private_key = generate_keypair()
+    for iteration in range(100):
+        pubic_key2 = encrypt_public_key(public_key)
+        ciphertext, secret = encapsulate_key(pubic_key2)
+        _secret = recover_key(ciphertext, private_key)
+        assert secret == _secret
+    print("...done")    
     
 if __name__ == "__main__":
     test_encapsulate_key()

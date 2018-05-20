@@ -673,10 +673,12 @@ generate n: n = k^2 + 1
 
 
 (a^2 + b^2) = (a + bi) * (a - bi)
-(a^2 - b^2) = (a - bi) * (a - biii)  
-               aa - abiii - abi - bb
-               aa - (ab-i) - abi - bb
-               aa + abi - abi - bb
+              aa - abi + abi - bbii
+              aa + bb
+              
+(a^2 - b^2) = (a + bii) * (a + b)
+               aa + ab + abii + bbii
+               aa + ab - ab - bb
                aa - bb
                
 i^2 is a square root of 1
@@ -687,9 +689,27 @@ i^2 is a square root of 1
 
 
 can distribution of exponents be used to speed up any calculations
-    - freshmans dream identity
-    
+        
 
 a^2 + bi^2 = c^2
-5^2 + 3i^3 = 4^2
+5^2 + 3i^2 = 4^2
 25 - 9 = 16
+
+
+
+
+a^3 − b^3 = (a − b)(a^2 + ab + b^2)
+
+
+
+
+
+
+
+
+
+Coxeter's "murder weapon": "If ap=bq=cr=abc=1ap=bq=cr=abc=1 defines a finite group, then ap=bq=cr=abc=zap=bq=cr=abc=z implies z2=1z2=1."
+
+
+
+k = (a^2 + b^2)/(ab + 1)           is a square if k is an integer
