@@ -713,3 +713,4 @@ Coxeter's "murder weapon": "If ap=bq=cr=abc=1ap=bq=cr=abc=1 defines a finite gro
 
 
 k = (a^2 + b^2)/(ab + 1)           is a square if k is an integer
+
