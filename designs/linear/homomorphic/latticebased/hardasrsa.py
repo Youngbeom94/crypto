@@ -13,6 +13,9 @@
 # n = p * q
 # totient(n) = (p - 1) * (q - 1) = n - p - q + 1 = n - k
 # given e, n, recovering d implies ability to factor n
+#    recovering private key from this design implies ability to factor RSA moduli
+#   - but public key operation is not guaranteed to be hard to invert
+
 from crypto.utilities import random_integer, modular_inverse, is_prime
 
 SECURITY_LEVEL = 24
