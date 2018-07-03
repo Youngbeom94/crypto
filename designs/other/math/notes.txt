@@ -714,3 +714,57 @@ Coxeter's "murder weapon": "If ap=bq=cr=abc=1ap=bq=cr=abc=1 defines a finite gro
 
 k = (a^2 + b^2)/(ab + 1)           is a square if k is an integer
 
+
+
+
+
+n - 1 is congruent to p - 1 mod p and q - 1 mod q (where n = pq)
+
+
+
+
+
+
+
+
+
+(x/n) * e
+
+(p - 1) * (q - 1)
+pq - p - q + 1
+
+(x/pq) * (-p - q + 1)
+(x/pq) * -1(p + q - 1)
+
+-1(x/q + x/p - x/pq)
+
+-x/q - x/p + x/pq
+
+x/pq - x/q - x/p
+
+t = pow(m, e)
+error = ((t/n) * p) + ((t/n) * q) - t/n
+c = t mod n
+c = t - error mod totient(n)
+
+
+
+for prime n > 0:
+totient(2^n) = 1 * 2^(n - 1)
+totient(3^n) = 2 * 3^(n - 1)   
+totient(5^n) = 4 * 5^(n - 1)
+totient(7^n) = 6 * 7^(n - 1)
+totient(11^n) = 10 * 11^(n - 1)
+...
+totient(p^n) = (p - 1) * p^(n - 1)
+
+    
+    
+    
+c^n - b^n is not a power of n for n >= 3
+c^n - b^n does not have an nth root in integers
+
+
+
+a^2 + b^2 = c^2
+(a + b)^2 - 2ab = c^2
