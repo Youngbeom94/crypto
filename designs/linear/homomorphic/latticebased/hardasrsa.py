@@ -15,7 +15,7 @@
 # given e, n, recovering d implies ability to factor n
 #    recovering private key from this design implies ability to factor RSA moduli
 #   - but public key operation is not guaranteed to be hard to invert
-
+#       - could use as a symmetric cipher and use generic public key operation from homomorphic addition
 from crypto.utilities import random_integer, modular_inverse, is_prime
 
 SECURITY_LEVEL = 24
