@@ -18,7 +18,7 @@
 #       - could use as a symmetric cipher and use generic public key operation from homomorphic addition
 from crypto.utilities import random_integer, modular_inverse, is_prime
 
-SECURITY_LEVEL = 24
+SECURITY_LEVEL = 32
 
 def generate_parameters(security_level=SECURITY_LEVEL):
     parameters = {"d_size" : security_level, "k_size" : security_level * 2,

@@ -720,3 +720,37 @@ We will be designing an algorithm that offers the ability to add ciphertexts tog
 # 256 primes
 # select random subset of them
 # form product from selected subset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+De-duplication
+-----
+De-duplication is possible for messages that share a common prefix
+
+x = number of blocks
+
+n = block size
+
+storing all blocks without de-duplication requires x * pow(n, x) space
+
+storing de-duplicated blocks requires pow(n, 1) + ... + pow(n, x) space
+    
+- requires approximately pow(n, x) space to store de-duplicated blocks
+- requires approximately 1/x the space to store x de-duplicated blocks
+
+
+Delegating read access
+-----
+Separate distinct decryption keys can be provided to multiple parties for a given ciphertext, as long as a key is already shared with each recipient (symmetric or public key).
+
