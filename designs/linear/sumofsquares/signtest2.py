@@ -42,8 +42,9 @@ def sign(private_key, m, parameters=PARAMETERS):
     c = random_integer(parameters["c_size"])
     d = random_integer(parameters["d_size"])
     hm = h(m)
-    t = (pow(c, 2) * hm) + (pow(d * hm, 2) * hm)      # h(cc + ddhh), / h = cc + ddhh = x + yz
-    s = (a * c * hm) - (b * d * hm * hm)              # h(ac - bdh), / h = ac - bdh 
+    
+    t = (c * c * hm) + (pow(d * hm, 2) * hm)      # h(cc + ddhh), / h = cc + ddhh = x + yz
+    s = (a * c * hm) - (b * d * hm * hm)          # h(ac - bdh), / h = ac - bdh 
     return t, s
     
 def verify(public_key, signature, m):    
@@ -63,7 +64,8 @@ def test_sign_verify():
         
     m2 = "Forgery"
     forged_signature = (signature[0], (signature[1] / h(m)) * h(m2))
-    print("Broken: {}".format(verify(public_key, forged_signature, m2)))
+    if verify(public_key, forged_signature, m2):
+        print("Broken!")
     
 if __name__ == "__main__":
     test_sign_verify()
