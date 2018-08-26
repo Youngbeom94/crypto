@@ -26,15 +26,13 @@ def prove(private_key, security_level=SECURITY_LEVEL):
     d = random_integer(security_level)
     
     t = pow(c, 2) + pow(d, 2)
-    ac = a * c
-    bd = b * d
-    s = max(ac, bd) - min(ac, bd)    
+    ac = a * c; bd = b * d;
+    s = abs(ac - bd)
     return t, s
     
 def verify(public_key, proof):
-    t, s = proof
-    s2 = pow(s, 2)
-    return is_square((t * public_key) - s2)
+    t, s = proof    
+    return is_square((t * public_key) - pow(s, 2))
     
 def test_prove_verify():
     public_key, private_key = generate_keypair()

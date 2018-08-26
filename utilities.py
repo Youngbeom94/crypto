@@ -578,3 +578,7 @@ def isqrt(n):
             d = new_diff
             m |= j
     return m                
+        
+def is_square(n):
+    return (isqrt(n) ** 2) == n
+    
