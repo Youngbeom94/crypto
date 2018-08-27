@@ -63,9 +63,10 @@ def test_sign_verify():
     assert verify(signature, m, public_key) == True
     
     m2 = "Forgery"
-    forged_signature = (signature[0], (signature[1] / h(m)) * h(m2))
+    forged_signature = ((signature[0] / h(m)) * h(m2), (signature[1] / h(m)) * h(m2))
     if verify(forged_signature, m2, public_key):
         print("Broken!")
+        
     from crypto.designs.linear.homomorphic.latticebased.unittesting import test_sign_verify
     test_sign_verify("Quadratic sum signature test 2", generate_keypair, sign, verify, iterations=10000)
     
