@@ -36,39 +36,38 @@ def generate_keypair(parameters=PARAMETERS):
     public_key = generate_public_key(private_key)
     return public_key, private_key
     
-def sign(private_key, m, parameters=PARAMETERS):
-    # (aa + bb) * (cc + dd) = (ac - bd)^2 + (ad + bc)^2
-    # (aa + bb) * (cc + ddhh) = (ac - bdh)^2 + (adh + bc)^2
-    # (aa + bb) * (cchh + ddhhhh) = (ach - bdhh)^2 + (adhh + bch)^2
-    # (aa + bb) * h(cch + ddhhh) = (ach - bdhh)^2 + (adhh + bch)^2          
+def sign(m, private_key, parameters=PARAMETERS):
+    # (aa + bb) * (cc + dd) = (ac + bd)^2 + (ad - bc)^2
+    # (aa + bb) * (cc + ddhh) = (ac + bdh)^2 + (adh - bc)^2
+    # (aa + bb) * (cchh + ddhhhh) = (ach + bdhh)^2 - (adhh + bch)^2
+    # (aa + bb) * h(cch + ddhhh) = (ach + bdhh)^2 - (adhh + bch)^2          
     a, b = private_key
     c = random_integer(parameters["c_size"])
     d = random_integer(parameters["d_size"])
     hm = h(m)
     
-    t = (c * c * hm) + (pow(d * hm, 2) * hm)      # h(cc + ddhh), / h = cc + ddhh = x + yz
-    s = (a * c * hm) - (b * d * hm * hm)          # h(ac - bdh), / h = ac - bdh 
+    ch = c * hm
+    dhh = d * hm * hm
+    t = (c * ch) + (d * dhh * hm)                 # h(cc + ddhh) / h = cc + ddhh = x + yz
+    s = (a * ch) + (b * dhh)                      # h(ac + bdh)  / h = ac + bdh 
     return t, s
     
-def verify(public_key, signature, m):    
+def verify(signature, m, public_key):    
     t, s = signature        
     return is_square(abs((t * public_key * h(m)) - pow(s, 2)))
     
 def test_sign_verify():
     public_key, private_key = generate_keypair()
     m = "Test message!"
-    signature = sign(private_key, m)
-    assert verify(public_key, signature, m) == True
+    signature = sign(m, private_key)
+    assert verify(signature, m, public_key) == True
     
-    from math import log
-    print("Private key size: {}".format(sum(log(item, 2) for item in private_key)))
-    print("Public key size: {}".format(log(public_key, 2)))    
-    print("Signature size: {}".format(sum(log(abs(item), 2) for item in signature)))
-        
     m2 = "Forgery"
     forged_signature = (signature[0], (signature[1] / h(m)) * h(m2))
-    if verify(public_key, forged_signature, m2):
+    if verify(forged_signature, m2, public_key):
         print("Broken!")
+    from crypto.designs.linear.homomorphic.latticebased.unittesting import test_sign_verify
+    test_sign_verify("Quadratic sum signature test 2", generate_keypair, sign, verify, iterations=10000)
     
 if __name__ == "__main__":
     test_sign_verify()

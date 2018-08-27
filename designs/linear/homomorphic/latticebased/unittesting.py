@@ -1,6 +1,6 @@
 from timeit import default_timer
 
-from crypto.utilities import random_integer, size_in_bits
+from crypto.utilities import random_integer, size_in_bits, random_bytes
 
 class UnitTestFailure(BaseException): pass
 
@@ -172,8 +172,8 @@ def test_key_exchange(algorithm_name, generate_keypair, exchange_key, recover_ke
     print("(sizes are in bits)")
     print("{} unit test passed".format(algorithm_name))
     
-def test_sign_verify_time(iterations, sign, verify, public_key, private_key, message_size=32):    
-    message = random_integer(message_size)
+def test_sign_verify_time(iterations, sign, verify, public_key, private_key, message_size=32, random_generator=random_integer):    
+    message = random_generator(message_size)
     print("Signing {} {}-bit messages...".format(iterations, message_size * 8))         
     before = default_timer()
     for count in range(iterations):                     
@@ -195,15 +195,28 @@ def test_sign_verify(algorithm_name, generate_keypair, sign, verify,
     public_key, private_key = generate_keypair()
     print("...done")
     
+    message = random_integer(message_size)
+    random_generator = random_integer
+    try:
+        sign(message, private_key)
+    except TypeError:
+        message = random_bytes(message_size)
+        try:
+            sign(message, private_key)
+        except TypeError:
+            raise TypeError("Unable to determine type of message to be signed")
+        else:
+            random_generator = random_bytes
+            
     print("Validating correctness...")
     for count in range(iterations):
-        message = random_integer(message_size)
+        message = random_generator(message_size)
         signature = sign(message, private_key)
         if not verify(signature, message, public_key):        
             raise UnitTestFailure("Unit test failed after {} successful signature verifications".format(count))
     print("...done")
     
-    test_sign_verify_time(iterations, sign, verify, public_key, private_key, message_size)
+    test_sign_verify_time(iterations, sign, verify, public_key, private_key, message_size, random_generator)
     
     public_sizes = determine_key_size(public_key)
     private_sizes = determine_key_size(private_key)
