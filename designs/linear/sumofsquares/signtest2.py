@@ -1,5 +1,5 @@
 from hashlib import sha256, sha512
-from crypto.utilities import random_integer, isqrt, bytes_to_integer
+from crypto.utilities import random_integer, isqrt, bytes_to_integer, is_prime
 
 SECURITY_LEVEL = 32
 
@@ -20,8 +20,11 @@ def is_square(n):
     
 def generate_private_key(parameters=PARAMETERS):
     ab_size = parameters["ab_size"]
-    a = random_integer(ab_size)
-    b = random_integer(ab_size)
+    while True:
+        a = random_integer(ab_size)
+        b = random_integer(ab_size)
+        if not is_prime(pow(a, 2) + pow(b, 2)):
+            break
     return a, b
     
 def generate_public_key(private_key):

@@ -961,4 +961,7 @@ g^(x - 1) = (g - 1)g^(x - 2) + g^(x - 2)
 g^(x - n) = (g - 1)g^(x - n - 1) + g^(x - n - 1)
 
 
+
+
+"If n has two distinct expressions as a sum of two squares, n=a2+b2=c2+d2, then n divides (ac+bd)(ac−bd)." (https://math.stackexchange.com/a/1177886)
               
