@@ -149,3 +149,6 @@ tramp
 
 *.asm
 *.pyc
+
+iaca.exe
+iacaMarks.h
