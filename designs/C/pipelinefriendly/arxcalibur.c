@@ -1,3 +1,4 @@
+#include "C:\Users\_\Documents\GitHub\crypto\analysis\iaca-win64\iacaMarks.h"
 #define WORDSIZE32 unsigned long
 
 #define rotate_left(word, amount)(((word << amount) | (word >> (32 - amount))))
@@ -29,7 +30,9 @@
 #define iterate(permutation, a, b, c, d, iterations)({\
     unsigned int iteration;\
     for (iteration = 0; iteration < iterations; iteration++){\
-        permutation(a, b, c, d);}})
+        IACA_START\
+        permutation(a, b, c, d);}\
+    IACA_END})
     
 void blockcipher128_384_encrypt(WORDSIZE32* data, WORDSIZE32* key){    
     WORDSIZE32 a, b, c, d;

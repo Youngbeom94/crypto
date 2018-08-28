@@ -27,7 +27,7 @@ void permutation(WORDSIZE* state){
             shift_rows(b, c, d, 4, 8, 12);
         
             mix_columns(a, b, c, d);
-            shift_rows(b, c, d, 8, 12, 16);}
+            shift_rows(b, c, d, 8, 12, 16);}        
         shift_sections(b, c, d);}
         
     store_register(a, state, 0); store_register(b, state, 4);

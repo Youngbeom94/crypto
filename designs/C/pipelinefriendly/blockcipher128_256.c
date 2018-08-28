@@ -1,3 +1,5 @@
+#include "C:\Users\_\Documents\GitHub\crypto\analysis\iaca-win64\iacaMarks.h"
+
 #define WORDSIZE32 unsigned long
 #define ROUNDS 10
 
@@ -36,7 +38,9 @@
 #define iterate(permutation, a, b, c, d, iterations)\
 ({  unsigned int iteration;\
     for (iteration = 0; iteration < iterations; iteration++){\
-        permutation(a, b, c, d);}})
+        IACA_START\
+        permutation(a, b, c, d);}\
+    IACA_END})
 
 void blockcipher128_256_encrypt(WORDSIZE32* data, WORDSIZE32* key){
     WORDSIZE32 a, b, c, d;
@@ -50,8 +54,8 @@ void blockcipher128_256_encrypt(WORDSIZE32* data, WORDSIZE32* key){
     
     store_data(data, a, b, c, d);}
 
-/*#include "../performancetesting.c"    
+#include "../performancetesting.c"    
 int main(){    
-    test_encrypt_performance_4x32_384(encrypt, (1024 * 1024 * 1024) / 16);
-    return 0;}*/
+    test_encrypt_performance_4x32_384(blockcipher128_256_encrypt, (1024 * 1024 * 1024) / 16);
+    return 0;}
         

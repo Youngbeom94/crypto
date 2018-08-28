@@ -1,0 +1,57 @@
+Intel(R) Architecture Code Analyzer Version -  v3.0-28-g1ba2cbb build date: 2017-10-23;17:30:24
+Analyzed File -  arxcalibur.exe
+Binary Format - 64Bit
+Architecture  -  SKL
+Analysis Type - Throughput
+
+Throughput Analysis Report
+--------------------------
+Block Throughput: 16.00 Cycles       Throughput Bottleneck: Backend
+Loop Count:  22
+Port Binding In Cycles Per Iteration:
+--------------------------------------------------------------------------------------------------
+|  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
+--------------------------------------------------------------------------------------------------
+| Cycles |  9.0     0.0  |  7.5  |  0.7     0.7  |  0.6     0.6  |  1.0  |  7.5  |  9.0  |  0.7  |
+--------------------------------------------------------------------------------------------------
+
+DV - Divider pipe (on port 0)
+D - Data fetch pipe (on ports 2 and 3)
+F - Macro Fusion with the previous instruction occurred
+* - instruction micro-ops not bound to a port
+^ - Micro Fusion occurred
+# - ESP Tracking sync uop was issued
+@ - SSE instruction followed an AVX256/AVX512 instruction, dozens of cycles penalty is expected
+X - instruction not supported, was not accounted in Analysis
+
+| Num Of   |                    Ports pressure in cycles                         |      |
+|  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
+-----------------------------------------------------------------------------------------
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | not ebx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | not ecx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add ecx, edx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add esi, ebx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor edx, esi
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor ebx, ecx
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror edx, 0x1f
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror ebx, 0x1d
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add ecx, edx
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror esi, 0x1e
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add esi, ebx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor ebx, ecx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor edx, esi
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror edx, 0x1c
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror ebx, 0x14
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add ecx, edx
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror esi, 0x18
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | add esi, ebx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor ebx, ecx
+|   1      |             | 0.5  |             |             |      | 0.5  |      |      | xor edx, esi
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror edx, 0x18
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror esi, 0x14
+|   2      | 1.0         |      |             |             |      |      | 1.0  |      | ror ebx, 0x10
+|   4^     |             | 0.5  | 0.7     0.7 | 0.6     0.6 | 1.0  | 0.5  |      | 0.7  | dec dword ptr [rbp-0x10]
+|   0*F    |             |      |             |             |      |      |      |      | jnz 0xffffffffffffffbe
+Total Num Of Uops: 36
+Analysis Notes:
+Backend allocation was stalled due to unavailable allocation resources.

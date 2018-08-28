@@ -1,0 +1,218 @@
+Intel(R) Architecture Code Analyzer Version -  v3.0-28-g1ba2cbb build date: 2017-10-23;17:30:24
+Analyzed File -  permutation.exe
+Binary Format - 64Bit
+Architecture  -  SKL
+Analysis Type - Throughput
+
+Throughput Analysis Report
+--------------------------
+Block Throughput: 60.95 Cycles       Throughput Bottleneck: Backend
+Loop Count:  22
+Port Binding In Cycles Per Iteration:
+--------------------------------------------------------------------------------------------------
+|  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
+--------------------------------------------------------------------------------------------------
+| Cycles | 43.0     0.0  | 43.0  |  3.0     3.0  |  3.0     3.0  |  4.0  | 43.0  |  5.0  |  3.0  |
+--------------------------------------------------------------------------------------------------
+
+DV - Divider pipe (on port 0)
+D - Data fetch pipe (on ports 2 and 3)
+F - Macro Fusion with the previous instruction occurred
+* - instruction micro-ops not bound to a port
+^ - Micro Fusion occurred
+# - ESP Tracking sync uop was issued
+@ - SSE instruction followed an AVX256/AVX512 instruction, dozens of cycles penalty is expected
+X - instruction not supported, was not accounted in Analysis
+
+| Num Of   |                    Ports pressure in cycles                         |      |
+|  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
+-----------------------------------------------------------------------------------------
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | movups xmm5, xmmword ptr [rbp-0x18]
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm1, xmm0
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm5, xmm2
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm5, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm2
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm2, 0x1f
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm0, xmm5
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm4, 0x1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm2
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm2, xmm1
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x1e
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm3, xmm4
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm2, 0x2
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm0
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm1, 0x3
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm0, 0x1d
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm2
+|   1      |             | 1.0  |             |             |      |      |      |      | orps xmm0, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm2, xmm5
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm4, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm2, xmm3
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm3, xmm4
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm0, xmm2
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm3
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm3, 0x1c
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x4
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm3, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm4
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x8
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x18
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm3
+|   1      | 1.0         |      |             |             |      |      |      |      | orps xmm1, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0xc
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm4, 0x14
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm5
+|   4^     |             |      |             | 1.0     1.0 | 1.0  |      | 1.0  | 1.0  | add dword ptr [rbp-0x18], 0x4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm1, xmm4
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm4, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm3, xmm1
+|   4^     |             |      | 1.0     1.0 | 1.0     1.0 | 1.0  |      | 1.0  |      | add dword ptr [rbp-0x14], 0x4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm0, xmm3
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x8
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm0, 0x18
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm0, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm1
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0xc
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm3, 0x14
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm0
+|   1      |             | 1.0  |             |             |      |      |      |      | orps xmm3, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm4
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm4, 0x10
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x10
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm5
+|   4^     |             |      | 1.0     1.0 |             | 1.0  |      | 1.0  | 1.0  | add dword ptr [rbp-0x10], 0x4
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm3, xmm4
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm4, xmm2
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm0, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm6, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x1
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x1f
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm6, 0x3
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm1, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm0, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x2
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm0, 0x1e
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm3, 0x1d
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm3, xmm6
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm0, xmm5
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm0, xmm3
+|   4^     |             |      |             | 1.0     1.0 | 1.0  |      | 1.0  | 1.0  | add dword ptr [rbp-0xc], 0x4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm1, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x4
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm4, 0x1c
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm0, xmm3
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm0, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x8
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x18
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm1, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm2, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm3, 0xc
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm5, 0x14
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm5, xmm3
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm1, xmm5
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm5, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm4, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm6, xmm1
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x14
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm7, xmm5
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm3, 0x8
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm4, 0x18
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm6, 0xc
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm7, 0x10
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm5, 0x10
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm3
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm5, xmm7
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm1, xmm6
+|   1      |             |      |             |             |      | 1.0  |      |      | pshufd xmm0, xmm4, 0x6c
+|   1      |             |      |             |             |      | 1.0  |      |      | pshufd xmm4, xmm5, 0xc6
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm2, xmm0
+|   1      |             |      |             |             |      | 1.0  |      |      | pshufd xmm1, xmm1, 0xb1
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm1, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm0, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x1
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm3, 0x1f
+|   1      | 1.0         |      |             |             |      |      |      |      | orps xmm3, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm0, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm1, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x2
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm0, 0x1e
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm0, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm1
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x3
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm4, 0x1d
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm5
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm0, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm4, xmm2
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm3, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm3
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x4
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm1, 0x1c
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm1, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm0
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | pslld xmm5, 0x8
+|   1      |             | 1.0  |             |             |      |      |      |      | psrld xmm3, 0x18
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | orps xmm3, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm0, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0xc
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm0, 0x14
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm0, xmm5
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm3, xmm0
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm0, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm1, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm1
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm4, xmm1
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x8
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm4, 0x18
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm4, xmm5
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm1, xmm3
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm3
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0xc
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm3, xmm2
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm1, 0x14
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm1, xmm5
+|   1      |             | 1.0  |             |             |      |      |      |      | andps xmm3, xmm4
+|   1*     |             |      |             |             |      |      |      |      | movaps xmm5, xmm0
+|   1      | 1.0         |      |             |             |      |      |      |      | psrld xmm0, 0x10
+|   1      |             | 1.0  |             |             |      |      |      |      | pslld xmm5, 0x10
+|   1      |             |      |             |             |      | 1.0  |      |      | orps xmm0, xmm5
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm3, xmm1
+|   1      | 1.0         |      |             |             |      |      |      |      | orps xmm1, xmm4
+|   1      |             | 1.0  |             |             |      |      |      |      | xorps xmm1, xmm0
+|   1      |             |      |             |             |      | 1.0  |      |      | andps xmm0, xmm3
+|   1      | 1.0         |      |             |             |      |      |      |      | xorps xmm0, xmm2
+|   1      |             | 1.0  |             |             |      |      |      |      | andps xmm2, xmm1
+|   1      |             |      |             |             |      | 1.0  |      |      | xorps xmm2, xmm4
+|   1      |             |      |             |             |      |      | 1.0  |      | jnz 0xfffffffffffffd55
+Total Num Of Uops: 198
+Analysis Notes:
+Backend allocation was stalled due to unavailable allocation resources.

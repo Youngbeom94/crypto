@@ -1,3 +1,5 @@
+#include "C:\Users\_\Documents\GitHub\crypto\analysis\iaca-win64\iacaMarks.h"
+
 #include <time.h>
 #include <stdio.h>
 #include <emmintrin.h>
@@ -29,13 +31,14 @@ void permutation(WORDSIZE* state){
     load_register(c, state, 8); load_register(d, state, 12);           
     
     for (index = 0; index < 8; index++){                     
+        IACA_START
         add_constant(a);                
         mix_slice(a, b, c, d);                
         mix_slice(a, b, c, d);  
         shift_sections(b, c, d);
         mix_slice(a, b, c, d);          
         sub_bytes(a, b, c, d);}
-        
+    IACA_END
     store_register(a, state, 0); store_register(b, state, 4);
     store_register(c, state, 8); store_register(d, state, 12);}
     
