@@ -875,14 +875,17 @@ x(2x - 2)(3x - 6)(4x - 12)(5x - 20)
 
 
 x(2x - 2) = 2xx - 2x
-
+          = 2(xx - x)
+          
 x(2x - 2)(3x - 6) = (2xx - 2x)(3x - 6) = 6xxx -12xx - 6xx + 12x = 6xxx - 18xx + 12x
-
+                                                                = 6(xxx - 3xx + 2x)
+                                                                
 x(2x - 2)(3x - 6)(4x - 12) = (6xxx - 18xx + 12x)(4x - 12) = 24xxxx - 72xxx - 72xxx + 216xx + 48xx - 144x = 24xxxx - 144xxx + 264xx - 144x
-
+                                                                                                         = 24(xxxx - 6xxx + 11xx - 6x)
+                                                                                                         
 x(2x - 2)(3x - 6)(4x - 12)(5x - 20) = (24xxxx - 144xxx + 264xx - 144x)(5x - 20) = 120xxxxx - 480xxxx - 720xxxx + 2880xxx + 1320xxx - 5280xx - 720xx + 2880x
                                                                                 = 120xxxxx - 1200xxxx + 4200xxx - 6000xx + 2880x
-
+                                                                                = 120(xxxxx - 10xxxx + 35xxx - 50xx + 24x)
 (x/2) - (((x/2) - x) * ((x/2) - 2x))
 
             
@@ -967,3 +970,53 @@ g^(x - n) = (g - 1)g^(x - n - 1) + g^(x - n - 1)
 "For a number n which is a product of two large primes of the form 4k+1, if we can find two really different representations, then we can efficiently factor n." (https://math.stackexchange.com/questions/1299115/on-splitting-a-number-as-the-sum-of-two-squares#comment2638103_1299115)
 
               
+              
+              
+if x^2 == y^2 mod N, then (xz)^2 == 1 mod N where z = 1/y
+2x^2 * 2y^2 = 4z^2 = w^2 = (x^2 + x^2)(y^2 + y^2) = (x^2y^2 - x^2y^2)^2 + (x^2y^2 + x^2y^2)^2
+2x^2 * 2x^2 = 4x^4 = y^2
+
+
+
+f(x, y) -> x^2 + y^2
+f(x + 1, y) -> (x + 1)^2 + y^2 = x^2 + 2x + 1 + y^2
+f(x + 2, y) -> (x + 2)^2 + y^2 = x^2 + 4x + 4 + y^2
+f(x + n, y) -> (x + n)^2 + y^2 = x^2 + 2nx + n^2 + y^2
+
+f(x - 1, y) -> (x - 1)^2 + y^2 = x^2 - 2x + 1 + y^2
+f(x - 2, y) -> (x - 2)^2 + y^2 = x^2 - 4x + 4 + y^2
+f(x - n, y) -> (x - n)^2 + y^2 = x^2 - 2nx + n^2 + y^2
+
+f(x * 2, y) -> (2x)^2 + y^2 = 4x^2 + y^2
+f(x * 3, y) -> (3x)^2 + y^2 = 9x^2 + y^2
+f(x * n, y) -> (nx)^2 + y^2 
+
+f(x^2, y) -> (x^2)^2 + y^2 = x^4 + y^2
+f(x^3, y) -> (x^3)^2 + y^2 = x^6 + y^2
+f(x^n, y) -> (x^n)^2 + y^2 = x^(2n) + y^2
+
+f(f(x, y), y) -> (x^2 + y^2)^2 + y^2 = (x^2 + y^2)(x^2 + y^2) + y^2
+                                     = x^4 + 2(xy)^2 + y^4 + y^2
+f(f(f(x, y), y), y) -> (x^4 + 2(xy)^2 + y^4 + y^2)^2 + y^2 = (x^4 + 2(xy)^2 + y^4 + y^2)(x^4 + 2(xy)^2 + y^4 + y^2) + y^2
+                                                           = x^8 + 2x^6y^2 + (xy)^4 + x^4y^2 + ...
+                         
+                         
+z^2 * f(x, y) -> (xz)^2 + (yz)^2                         
+                                     
+f(x, y) -> element of infinite multiplicative monoid?
+
+
+
+
+
+https://en.wikipedia.org/wiki/Sum_of_squares_function
+"The number of ways to write a natural number as sum of two squares is given by r2(n). It is given explicitly by
+        
+    r2(n) = 4(d1(n) - d3(n))
+
+where d1(n) is the number of divisors of n which are congruent with 1 modulo 4 and d3(n) is the number of divisors of n which are congruent with 3 modulo 4."
+
+
+
+
+
