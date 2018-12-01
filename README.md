@@ -1,6 +1,6 @@
 Ella's Crypto Research
 
-This repository contains my research into cryptographic algorithm design
+This repository contains my research into cryptographic algorithm design.
 
 Layout
 ----
@@ -67,7 +67,6 @@ Layout
             - streamcipher
         - other
             - contains odds and ends that do not fit into the standard crypto design categories    
-            - math
             - old
             - scratch           
     - images
@@ -80,3 +79,5 @@ The analysis tools are written in python, as well the designs. A few designs hav
 Most of the designs are my own and are not intended for use to protect data in the real world. 
 
 The code is for research purposes. Much of it is effectively scratch paper - the contents of any file are not guaranteed to contain accurate or complete reasoning. Algorithms may be completely broken, and there is usually no warning attached where this is the case.
+
+The repository could probably be re-structured, some folder names may not be as indicative of their contents as they once were.
